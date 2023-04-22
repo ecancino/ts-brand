@@ -55,7 +55,7 @@ export type BaseOf<B extends AnyBrand> = B['__witness__'];
  * // A Brander<UserId> would take a number and return a UserId
  * ```
  */
-export type Brander<B extends AnyBrand> = (underlying: BaseOf<B>) => B;
+export type Brander<B extends AnyBrand> = (underlying?: BaseOf<B>) => B;
 
 /**
  * A generic function that, when given some branded type, can take a value with
@@ -72,7 +72,7 @@ export type Brander<B extends AnyBrand> = (underlying: BaseOf<B>) => B;
  * const UserId: Brander<UserId> = identity;
  * ```
  */
-export function identity<B extends AnyBrand>(underlying: BaseOf<B>): B {
+export function identity<B extends AnyBrand>(underlying?: BaseOf<B>): B {
   return underlying as B;
 }
 
@@ -89,6 +89,6 @@ export function identity<B extends AnyBrand>(underlying: BaseOf<B>): B {
  * const myUserId = UserId(42);
  * ```
  */
-export function make<B extends AnyBrand>(): Brander<B> {
-  return identity;
+export function make<B extends AnyBrand>(generator = identity): Brander<B> {
+  return generator;
 }
